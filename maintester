@@ -1,0 +1,112 @@
+public static void main(String[] args) {
+    // SquareSet set = new SquareSet();
+
+    Collection<Square> arr = new ArrayList<Square>();
+    try {
+        arr.add(new Square("a1"));
+        arr.add(new Square("a1"));
+        arr.add(new Square("a2"));
+        arr.add(new Square("a3"));
+        arr.add(new Square("a4"));
+    } catch (InvalidSquareException e) {
+        System.out.println("bad 1: " + e.getMessage());
+    }
+    SquareSet set = new SquareSet(arr);
+
+    Object[] squareList = set.toArray();
+    for (Object item: squareList) {
+        System.out.println(item);
+    }
+    try {
+        System.out.println(set.add(new Square("a1")));
+        System.out.println(set.add(new Square("a1")));
+        System.out.println(set.add(new Square("a2")));
+        System.out.println(set.add(new Square("a3")));
+        System.out.println(set.add(new Square("a4")));
+        System.out.println(set.add(new Square("a5")));
+        System.out.println(set.add(new Square("a6")));
+        System.out.println(set.add(new Square("a7")));
+        System.out.println(set.add(new Square("a7")));
+        System.out.println(set.add(new Square("a8")));
+        System.out.println(set.add(new Square("b1")));
+        System.out.println(set.add(new Square("b2")));
+        System.out.println(set.add(new Square("b3")));
+        System.out.println(set.add(new Square("b4")));
+        System.out.println(set.add(new Square("b5")));
+        System.out.println(set.add(new Square("b6")));
+        System.out.println(set.add(new Square("b7")));
+        System.out.println(set.add(new Square("c1")));
+        System.out.println(set.add(new Square("c2")));
+        System.out.println(set.add(new Square("c3")));
+        System.out.println(set.add(new Square("c4")));
+        System.out.println(set.add(new Square("c5")));
+        System.out.println(set.add(new Square("c6")));
+        System.out.println(set.add(new Square("c7")));
+    } catch (InvalidSquareException e) {
+        System.out.println("bad 1: " + e.getMessage());
+    }
+    try {
+        System.out.println(set.remove(new Square("a1")));
+        System.out.println(set.remove(new Square("b2")));
+        System.out.println(set.remove(new Square("c3")));
+        System.out.println(set.remove(new Square("d3")));
+
+    } catch (InvalidSquareException e) {
+        System.out.println("bad 1: " + e.getMessage());
+    }
+    for (Square item: set) {
+        System.out.println(item.toString());
+    }
+    for (Square item: set) {
+        System.out.println(item.toString());
+    }
+    try {
+        System.out.println(set.contains(new Square("c5")));
+    } catch (InvalidSquareException e) {
+        System.out.println("bad 1: " + e.getMessage());
+    }
+    System.out.println(set.size());
+    System.out.println(set.isEmpty());
+
+    Iterator daIter = set.iterator();
+    try {
+        while (daIter.hasNext()) {
+            if (daIter.next().equals(new Square("c5"))) {
+                System.out.println("Found the Square!");
+            }
+        }
+    } catch (InvalidSquareException e) {
+        System.out.println("bad 1: " + e.getMessage());
+    }
+
+    Square[] squareList2 = set.toArray(new Square[1]);
+    for (Object item: squareList2) {
+        System.out.println(item);
+    }
+
+
+    Collection<Square> arr2 = new ArrayList<Square>();
+    try {
+        arr2.add(new Square("a1"));
+        arr2.add(new Square("a3"));
+        arr2.add(new Square("c8"));
+    } catch (InvalidSquareException e) {
+        System.out.println("bad 1: " + e.getMessage());
+    }
+
+    System.out.println(arr2);
+    System.out.println(set.containsAll(arr2));
+
+    // try {
+    //     System.out.println(set.remove(new Square("a1")));
+    //     System.out.println(set.remove(new Square("b2")));
+    //     System.out.println(set.remove(new Square("c3")));
+    //     System.out.println(set.remove(new Square("d3")));
+    //
+    // } catch (InvalidSquareException e) {
+    //     System.out.println("bad 1: " + e.getMessage());
+    // }
+    // for (Square item: set) {
+    //     System.out.println(item.toString());
+    // }
+}

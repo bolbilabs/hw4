@@ -115,4 +115,9 @@ public class Square {
         Square that = (Square) other;
         return this.name.equals(that.name);
     }
+
+    @Override
+    public int hashCode() {
+        return (int) this.rank * 13 + this.file * 17;
+    }
 }

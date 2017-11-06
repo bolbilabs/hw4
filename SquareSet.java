@@ -4,7 +4,12 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-
+/**
+ * Homework 4
+ * CS1331
+ * @author dfriedman32
+ * @version 1.0
+ */
 public class SquareSet implements Set<Square>, Iterable<Square> {
     private Collection<Square> list;
     private Square[] backingarr;
@@ -13,114 +18,18 @@ public class SquareSet implements Set<Square>, Iterable<Square> {
     private int nextIndex = 0;
     private boolean preset = false;
 
-
-
-    public static void main(String[] args) {
-        // SquareSet set = new SquareSet();
-
-        Collection<Square> arr = new ArrayList<Square>();
-        try {
-            arr.add(new Square("a1"));
-            arr.add(new Square("a1"));
-            arr.add(new Square("a2"));
-            arr.add(new Square("a3"));
-            arr.add(new Square("a4"));
-        } catch (InvalidSquareException e) {
-            System.out.println("bad 1: " + e.getMessage());
-        }
-        SquareSet set = new SquareSet(arr);
-
-        Object[] squareList = set.toArray();
-        for (Object item: squareList) {
-            System.out.println(item);
-        }
-        try {
-            System.out.println(set.add(new Square("a1")));
-            System.out.println(set.add(new Square("a1")));
-            System.out.println(set.add(new Square("a2")));
-            System.out.println(set.add(new Square("a3")));
-            System.out.println(set.add(new Square("a4")));
-            System.out.println(set.add(new Square("a5")));
-            System.out.println(set.add(new Square("a6")));
-            System.out.println(set.add(new Square("a7")));
-            System.out.println(set.add(new Square("a7")));
-            System.out.println(set.add(new Square("a8")));
-            System.out.println(set.add(new Square("b1")));
-            System.out.println(set.add(new Square("b2")));
-            System.out.println(set.add(new Square("b3")));
-            System.out.println(set.add(new Square("b4")));
-            System.out.println(set.add(new Square("b5")));
-            System.out.println(set.add(new Square("b6")));
-            System.out.println(set.add(new Square("b7")));
-            System.out.println(set.add(new Square("c1")));
-            System.out.println(set.add(new Square("c2")));
-            System.out.println(set.add(new Square("c3")));
-            System.out.println(set.add(new Square("c4")));
-            System.out.println(set.add(new Square("c5")));
-            System.out.println(set.add(new Square("c6")));
-            System.out.println(set.add(new Square("c7")));
-        } catch (InvalidSquareException e) {
-            System.out.println("bad 1: " + e.getMessage());
-        }
-        for (Square item: set) {
-            System.out.println(item.toString());
-        }
-        try {
-            System.out.println(set.contains(new Square("c5")));
-        } catch (InvalidSquareException e) {
-            System.out.println("bad 1: " + e.getMessage());
-        }
-        System.out.println(set.size());
-        System.out.println(set.isEmpty());
-
-        Iterator daIter = set.iterator();
-        try {
-            while (daIter.hasNext()) {
-                if (daIter.next().equals(new Square("c5"))) {
-                    System.out.println("Found the Square!");
-                }
-            }
-        } catch (InvalidSquareException e) {
-            System.out.println("bad 1: " + e.getMessage());
-        }
-
-        Square[] squareList2 = set.toArray(new Square[1]);
-        for (Object item: squareList2) {
-            System.out.println(item);
-        }
-
-
-        Collection<Square> arr2 = new ArrayList<Square>();
-        try {
-            arr2.add(new Square("a1"));
-            arr2.add(new Square("a3"));
-            arr2.add(new Square("c8"));
-        } catch (InvalidSquareException e) {
-            System.out.println("bad 1: " + e.getMessage());
-        }
-
-        System.out.println(arr2);
-        System.out.println(set.containsAll(arr2));
-
-        try {
-            System.out.println(set.remove(new Square("a1")));
-            System.out.println(set.remove(new Square("b2")));
-            System.out.println(set.remove(new Square("c3")));
-            System.out.println(set.remove(new Square("d3")));
-
-        } catch (InvalidSquareException e) {
-            System.out.println("bad 1: " + e.getMessage());
-        }
-        for (Square item: set) {
-            System.out.println(item.toString());
-        }
-    }
-
-
+    /**
+     * Creates empty Backing Array that represents Set.
+     */
     public SquareSet() {
         backingarr = new Square[10];
         arrSize = backingarr.length;
     }
+    /**
+     * Transfers a collection of unspecified type to backing
+     * array.
+     * @param  c             Collection of a Set of Squares
+     */
     public SquareSet(Collection<Square> c) {
         backingarr = new Square[c.size()];
         addAll(c);
@@ -134,21 +43,11 @@ public class SquareSet implements Set<Square>, Iterable<Square> {
         if (e == null) {
             throw new NullPointerException();
         }
-        // if (preset) {
-        //     if (list.size() > 0) {
-        //         for (Square item : list) {
-        //             //System.out.println(item);
-        //             if (e.equals(item)) {
-        //                 return false;
-        //             }
-        //         }
-        //     }
-        //     list.add(e);
-        //     for (Square item : list) {
-        //         System.out.println(item);
-        //     }
-        //     return true;
-        // } else {
+        if (e.getFile() < 'a' || e.getFile() > 'h'
+            ||
+            e.getRank() < '1' || e.getRank() > '8') {
+            throw new InvalidSquareException("" + e.getFile() + e.getRank());
+        }
         ensureCapacity(indexPointer + 1);
         for (Square item: backingarr) {
             // System.out.println(item);
@@ -203,9 +102,24 @@ public class SquareSet implements Set<Square>, Iterable<Square> {
         }
         return false;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Set) {
+            return this.hashCode() == o.hashCode();
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public int hashCode() {
-        return 1;
+        int total = 0;
+        for (Square item: this) {
+            //System.out.println(item);
+            total += item.hashCode();
+        }
+        return total;
     }
     @Override
     public int size() {
@@ -239,21 +153,29 @@ public class SquareSet implements Set<Square>, Iterable<Square> {
     @Override
     public boolean addAll(Collection<? extends Square> c) {
         boolean foundSame = false;
+        int trueCounter = 0;
+        int totalLoop = 0;
+
         if (c.size() > 0) {
             for (Square item : c) {
+                totalLoop++;
                 foundSame = false;
                 //System.out.println(item);
-                if (c.contains(null)) {
+                if (c == null) {
                     throw new NullPointerException();
+                }
+                if (item.getFile() < 'a' || item.getFile() > 'h'
+                    ||
+                    item.getRank() < '1' || item.getRank() > '8') {
+                    throw new InvalidSquareException("" + item.getFile() + item.getRank());
                 }
                 for (Square item2: backingarr) {
                     if (item.equals(item2)) {
                         foundSame = true;
+                        trueCounter++;
                     }
                 }
-                if (foundSame) {
-                    //System.out.println("Already in.");
-                } else {
+                if (!foundSame) {
                     backingarr[indexPointer] = item;
                     indexPointer++;
                     //System.out.println("Placed!");
@@ -264,7 +186,10 @@ public class SquareSet implements Set<Square>, Iterable<Square> {
         // for (Square item : list) {
         //     System.out.println(item);
         // }
-        return true;
+        if (trueCounter < totalLoop) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -358,6 +283,8 @@ public class SquareSet implements Set<Square>, Iterable<Square> {
         for (Square item: backingarr) {
             if (o.equals(item)) {
                 backingarr[removalIndex] = null;
+                backingarr =
+                new Square[removeNull(backingarr).length];
                 backingarr = removeNull(backingarr);
                 arrSize = backingarr.length + 1;
                 return true;
@@ -367,6 +294,11 @@ public class SquareSet implements Set<Square>, Iterable<Square> {
         return false;
     }
 
+    /**
+     * Removes all Nulls from an array.
+     * @param  a             Array of Squares
+     * @return          Array of Squares without null elements
+     */
     public Square[] removeNull(Square[] a) {
         //Initializes Array Size
         int counter =  0;
@@ -381,7 +313,7 @@ public class SquareSet implements Set<Square>, Iterable<Square> {
         for (int i = 0; i < a.length; i++) {
             if ((a[i] != (null))) {
                 squareList[i - counter2] = a[i];
-                System.out.println(squareList[i-counter2]);
+                System.out.println(squareList[i - counter2]);
             } else {
                 counter2++;
             }

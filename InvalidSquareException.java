@@ -6,7 +6,7 @@
 *
 * @author dfriedman32
 */
-public class InvalidSquareException extends Throwable {
+public class InvalidSquareException extends RuntimeException {
     public InvalidSquareException(String square) {
         super(square);
     }
