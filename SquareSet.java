@@ -217,7 +217,6 @@ public class SquareSet implements Set<Square>, Iterable<Square> {
             a[arrIndex] = (T) item;
             arrIndex++;
         }
-        //System.arraycopy(backingarr, 0, a, 0, arrSize);
         if (a.length > arrSize) {
             a[arrSize] = null;
         }
