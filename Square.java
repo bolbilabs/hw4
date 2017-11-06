@@ -2,6 +2,7 @@
 * Represents a square on the chess board.
 *
 * @author dfriedman32
+* @version 1.1
 */
 public class Square {
     private char file;

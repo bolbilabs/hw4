@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -83,7 +82,7 @@ public class SquareSet implements Set<Square>, Iterable<Square> {
         }
         @Override
         public boolean hasNext() {
-            if (arrSize - cursor <= 1
+            if (arrSize - cursor <= 2
                 ||
                 backingarr[cursor] == null) {
                 return false;
@@ -164,10 +163,13 @@ public class SquareSet implements Set<Square>, Iterable<Square> {
                 if (c == null) {
                     throw new NullPointerException();
                 }
-                if (item.getFile() < 'a' || item.getFile() > 'h'
+                if (item.getFile() < 'a' || item.getFile()
+                    > 'h'
                     ||
-                    item.getRank() < '1' || item.getRank() > '8') {
-                    throw new InvalidSquareException("" + item.getFile() + item.getRank());
+                    item.getRank() < '1' || item.getRank()
+                    > '8') {
+                    throw new InvalidSquareException(""
+                    + item.getFile() + item.getRank());
                 }
                 for (Square item2: backingarr) {
                     if (item.equals(item2)) {
@@ -277,16 +279,38 @@ public class SquareSet implements Set<Square>, Iterable<Square> {
     @Override
     public boolean remove(Object o) {
         int removalIndex = 0;
+        int nonNullCounter = 0;
         if (o == null) {
             throw new NullPointerException();
         }
         for (Square item: backingarr) {
             if (o.equals(item)) {
                 backingarr[removalIndex] = null;
-                backingarr =
-                new Square[removeNull(backingarr).length];
-                backingarr = removeNull(backingarr);
-                arrSize = backingarr.length + 1;
+                for (Square item2: backingarr) {
+                    if (item2 != null) {
+                        nonNullCounter++;
+                    }
+                }
+                Square[] newList = new Square[nonNullCounter];
+                int itemIndex = 0;
+                for (Square item2: backingarr) {
+                    if (item2 != null) {
+                        newList[itemIndex] = item2;
+                        itemIndex++;
+                    }
+                }
+                // backingarr =
+                // new Square[2];
+                //backingarr = removeNull(backingarr);
+                backingarr = new Square[nonNullCounter];
+                itemIndex = 0;
+                for (Square item2: newList) {
+                    backingarr[itemIndex] = item2;
+                    itemIndex++;
+                }
+                System.out.println("Array Size: " + backingarr.length);
+                arrSize = backingarr.length;
+                indexPointer--;
                 return true;
             }
             removalIndex++;
